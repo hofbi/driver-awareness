@@ -13,7 +13,6 @@ from awareness_detector.sa import (
     PunishmentModel,
 )
 from awareness_detector.view import (
-    Color,
     ScreenParameter,
     CameraAdjustment,
     ImageVisualization,
