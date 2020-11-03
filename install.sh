@@ -101,3 +101,9 @@ pip3 install git+https://github.com/pupil-labs/pyglui
 
 # Our requirements
 sudo apt install -y libsdl2-dev ros-noetic-opencv-apps ros-noetic-derived-object-msgs
+
+# Carla Ros Bridge
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1AF1527DE64CB8D9
+sudo add-apt-repository "deb [arch=amd64] http://dist.carla.org/carla $(lsb_release -sc) main"
+sudo apt-get update
+sudo apt-get install -y carla-ros-bridge
