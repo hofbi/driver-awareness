@@ -82,7 +82,7 @@ def plot_data(input_dir, output_dir, main_scenario, show_plot):
         print(
             f"{file_name.stem} & {sa_df['optimal_sa'].mean():.2f} & \
             {sa_df['actual_sa_mean'].mean():.2f} & {sa_df['sa_mean'].mean():.2f} \
-            $\pm$({sa_df['sa_sigma'].mean():.2f}) \\\\"
+            $\pm$({sa_df['sa_sigma'].mean():.2f}) \\\\"  # noqa: W605
         )
 
 
