@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Helper tool to run the situational awareness detection pipeline on a folder of bag files and extract sa messages only & create a csv file with the sa data"""
+"""
+Helper tool to run the situational awareness detection pipeline on a folder of bag files and
+extract sa messages only & create a csv file with the sa data
+"""
 
 import time
 import argparse
@@ -58,7 +61,7 @@ def main():
             ]
         )
         time.sleep(2)
-        record_proc = subprocess.Popen(
+        subprocess.Popen(
             [
                 "rosbag",
                 "record",
@@ -108,7 +111,8 @@ def main():
 def parse_arguments():
     """Parser for commmand line arguments"""
     parser = argparse.ArgumentParser(
-        description="Extract situational awareness from bag files. Ouput are bag files with sa topic only and csv file with sa data",
+        description="Extract situational awareness from bag files. "
+        "Ouput are bag files with sa topic only and csv file with sa data",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(

@@ -147,7 +147,7 @@ class ManeuverOppositeDirectionPedestrian(BasicScenario):
         self.other_actors.append(first_actor)
         self.other_actors.append(second_actor)
         # if self._obstacle_type != "vehicle":
-            # self.other_actors.append(second_prop_actor)
+        # self.other_actors.append(second_prop_actor)
 
         self._source_transform = second_actor_waypoint.transform
         sink_waypoint = second_actor_waypoint.next(1)[0]

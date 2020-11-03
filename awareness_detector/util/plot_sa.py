@@ -32,7 +32,7 @@ def plot_data(input_dir, output_dir, main_scenario, show_plot):
         tikzplotlib.save(output_dir.joinpath("sa_measure.tex"))
         clear_plot_data()
 
-    actual_headers = sa_df.filter(regex="actual_sa_\d").columns
+    actual_headers = sa_df.filter(regex=r"actual_sa_\d").columns
 
     plt.figure("Individual SAs for a turn with 3 users", figsize=[24, 3])
     for index, name in enumerate(actual_headers):
@@ -70,6 +70,7 @@ def plot_data(input_dir, output_dir, main_scenario, show_plot):
         clear_plot_data()
 
     print(
+        # noqa: W605
         "Scenario & $\overline{SA}_{opt}$ & $\overline{SA}_{act}$ & $\overline{SA}_{ratio}$ ($\pm\sigma$) \\\\ \hline"
     )
     for file_name in [
