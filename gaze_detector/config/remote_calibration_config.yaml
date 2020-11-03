@@ -1,0 +1,7 @@
+screen_resolution:
+  x_px: 1920
+  y_px: 1080
+marker:
+  size_px: 160
+  border_offset_px: 10
+offset_topbar_px: 0

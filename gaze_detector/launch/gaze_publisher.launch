@@ -1,0 +1,13 @@
+<launch>
+    <arg name="pupil_ip" default="localhost"/>
+    <arg name="pupil_port" default="50020"/>
+    <arg name="screen_resolution_x" default="1920"/>
+    <arg name="screen_resolution_y" default="1080"/>
+
+    <node name="gaze_publisher" pkg="gaze_detector" type="gaze_publisher.py" respawn="true" output="screen">
+        <param name="pupil_ip" value="$(arg pupil_ip)"/>
+        <param name="pupil_port" value="$(arg pupil_port)"/>
+        <param name="screen_resolution_x" value="$(arg screen_resolution_x)"/>
+        <param name="screen_resolution_y" value="$(arg screen_resolution_y)"/>
+    </node>
+</launch>

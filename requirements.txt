@@ -1,0 +1,9 @@
+numpy
+matplotlib
+pygame
+pandas
+scipy
+msgpack
+pyzmq
+scikit-learn
+scipy

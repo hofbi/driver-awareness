@@ -1,0 +1,11 @@
+<launch>
+    <arg name="gaze_topic" default="/gaze_publisher/gaze"/>
+    <arg name="fixation_topic" default="/gaze_publisher/fixation"/>
+    <arg name="calibration_image_path" default="$(find gaze_detector)/config/calibration_image.png"/>
+    <arg name="calibration_circles_path" default="$(find gaze_detector)/config/calibration_image_circles.csv"/>
+
+    <node name="gaze_visualizer" pkg="gaze_detector" type="gaze_visualizer.py" respawn="false" output="screen">
+        <param name="gaze_topic" value="$(arg gaze_topic)"/>
+        <param name="fixation_topic" value="$(arg fixation_topic)"/>
+    </node>
+</launch>

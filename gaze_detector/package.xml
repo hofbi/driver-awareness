@@ -1,0 +1,21 @@
+<package format="2">
+    <name>gaze_detector</name>
+    <version>0.0.0</version>
+    <description>The gaze detector package</description>
+    <maintainer email="name.surname@tum.de">Markus Hofbauer</maintainer>
+    <author email="name.surname@tum.de">Markus Hofbauer</author>
+    <license>MIT</license>
+    <url type="website">https://github.com/hofbi/driver-awareness</url>
+
+    <buildtool_depend>catkin</buildtool_depend>
+    <build_depend>roslaunch</build_depend>
+    <build_depend>driver_awareness_msgs</build_depend>
+
+    <exec_depend>geometry_msgs</exec_depend>
+    <exec_depend>rospy</exec_depend>
+
+    <test_depend>rosunit</test_depend>
+
+    <export>
+    </export>
+</package>

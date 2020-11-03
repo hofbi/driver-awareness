@@ -1,0 +1,11 @@
+version: '3'
+services:
+  driver_sa:
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile
+    image: driver_sa
+    ports:
+      - '2000:2002'
+      - '50020:50020'
+    command: bash

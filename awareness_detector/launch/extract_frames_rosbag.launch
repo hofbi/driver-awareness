@@ -1,0 +1,22 @@
+<launch>
+    <arg name="input_rosbag"/>
+    <arg name="input_topic" default="/carla/ego_vehicle/camera/rgb/front/image_color"/>
+    <arg name="output_folder" default="$(find awareness_detector)/output"/>
+    <arg name="compress" default="False"/>
+    <arg name="img_quality" default="50"/>
+
+    <group if="$(eval arg('compress'))">
+        <param name="$(arg input_topic)/compressed/jpeg_quality" value="$(arg img_quality)"/>
+        <node name="image_republisher" pkg="image_transport" type="republish" args="raw in:=$(arg input_topic) compressed out:=$(arg input_topic)">
+        </node>
+    </group>
+
+    <node name="decompress" pkg="image_transport" type="republish" args="compressed in:=$(arg input_topic) raw out:=camera_out/image"/>
+    <node name="extract" pkg="image_view" type="extract_images" respawn="false" output="screen">
+        <remap from="image" to="/camera_out/image/"/>
+        <param name="filename_format" value="$(arg output_folder)/front_%06d.jpg"/>
+        <param name="sec_per_frame" value="0.00001"/>
+    </node>
+
+    <node pkg="rosbag" type="play" name="rosbag" required="True" args="$(arg input_rosbag)"/>
+</launch>

@@ -1,0 +1,13 @@
+objects:
+  max_distance_m: 100
+  roi_required_distance_m: 40
+min_2d_boundingbox:
+  x_px: 90
+  y_px: 90
+offset_topbar_px: 30
+camera_fov_deg: 90
+awareness_detection:
+  time_last_looked_detected_s: 5.0
+  num_gaze_comprehended_s:  35.0
+  dbscan_max_distance_px: 15
+  dbscan_min_samples: 5

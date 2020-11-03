@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<scenarios>
+    <scenario name="LeftTurnTwoVehicles_1" type="LeftTurnTwoVehicles" town="Town03">
+        <ego_vehicle x="-133.7" y="137.4" z="0.2" yaw="0" model="vehicle.lincoln.mkz2017"/>
+        <other_actor x="-53.4" y="131.7" z="0.0" yaw="180" model="vehicle.tesla.model3"/>
+        <other_actor x="-77.8" y="105.0" z="0.5" yaw="-90" model="vehicle.audi.tt"/>
+        <other_actor x="-72.0" y="80.0" z="2.0" yaw="-90" model="vehicle.lincoln.mkz2017"/>
+    </scenario>
+    <scenario name="LeftTurnTwoVehicles_2" type="LeftTurnTwoVehicles" town="Town04">
+        <ego_vehicle x="311.4" y="-220.2" z="0.3" yaw="90" model="vehicle.lincoln.mkz2017"/>
+        <other_actor x="314.5" y="-146.1" z="0.3" yaw="-90" model="vehicle.tesla.model3"/>
+    </scenario>
+</scenarios>

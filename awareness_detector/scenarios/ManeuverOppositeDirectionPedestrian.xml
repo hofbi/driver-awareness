@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<scenarios>
+    <scenario name="ManeuverOppositeDirectionPedestrian_1" type="ManeuverOppositeDirectionPedestrian" town="Town03">
+        <ego_vehicle x="17" y="136" z="2" yaw="0" model="vehicle.lincoln.mkz2017"/>
+    </scenario>
+    <scenario name="ManeuverOppositeDirectionPedestrian_2" type="ManeuverOppositeDirectionPedestrian" town="Town04">
+        <ego_vehicle x="63.3" y="-190.3" z="2" yaw="270" model="vehicle.lincoln.mkz2017"/>
+    </scenario>
+    <scenario name="ManeuverOppositeDirectionPedestrian_3" type="ManeuverOppositeDirectionPedestrian" town="Town04">
+        <ego_vehicle x="192" y="-311.5" z="2" yaw="180" model="vehicle.lincoln.mkz2017"/>
+    </scenario>
+    <scenario name="ManeuverOppositeDirectionPedestrian_4" type="ManeuverOppositeDirectionPedestrian" town="Town05">
+        <ego_vehicle x="94" y="144.7" z="2" yaw="-19" model="vehicle.lincoln.mkz2017"/>
+    </scenario>
+</scenarios>

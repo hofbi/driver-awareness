@@ -1,0 +1,30 @@
+<package format="2">
+    <name>awareness_detector</name>
+    <version>0.0.0</version>
+    <description>The awareness detector package</description>
+    <maintainer email="name.surname@tum.de">Markus Hofbauer</maintainer>
+    <author email="name.surname@tum.de">Markus Hofbauer</author>
+    <license>MIT</license>
+    <url type="website">https://github.com/hofbi/driver-awareness</url>
+
+    <buildtool_depend>catkin</buildtool_depend>
+    <depend>geometry_msgs</depend>
+    <depend>carla_msgs</depend>
+    <depend>driver_awareness_msgs</depend>
+    <depend>sensor_msgs</depend>
+    <build_depend>roslaunch</build_depend>
+
+    <exec_depend>gaze_detector</exec_depend>
+    <exec_depend>rospy</exec_depend>
+    <exec_depend>tf</exec_depend>
+    <exec_depend>rospkg</exec_depend>
+    <exec_depend>rosbag</exec_depend>
+    <exec_depend>image_geometry</exec_depend>
+    <exec_depend>cv_bridge</exec_depend>
+    <exec_depend>telecarla_manual_control</exec_depend>
+
+    <test_depend>rosunit</test_depend>
+
+    <export>
+    </export>
+</package>

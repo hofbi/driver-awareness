@@ -1,0 +1,14 @@
+screen:
+  window_pos_x_px: 1920
+  window_pos_y_px: 0
+  offset_topbar_px: 0
+  monitor_resolution_x_px: 1920
+  monitor_resolution_y_px: 1080
+  camera_resolution_x_px: 640
+  camera_resolution_y_px: 480
+awareness_detection:
+  time_last_looked_detected_s: 5.0
+  num_gaze_comprehended_s:  35.0
+  dbscan_max_distance_px: 15
+  dbscan_min_samples: 5
+  tracker_roi_max_distance_px: 50
