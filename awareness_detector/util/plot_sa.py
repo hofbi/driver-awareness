@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from pathlib import Path
 import os
-import numpy as np
 import tikzplotlib
 import argparse
 
@@ -80,7 +79,9 @@ def plot_data(input_dir, output_dir, main_scenario, show_plot):
     ]:
         sa_df = pd.read_csv(file_name)
         print(
-            f"{file_name.stem} & {sa_df['optimal_sa'].mean():.2f} & {sa_df['actual_sa_mean'].mean():.2f} & {sa_df['sa_mean'].mean():.2f} $\pm$({sa_df['sa_sigma'].mean():.2f}) \\\\"
+            f"{file_name.stem} & {sa_df['optimal_sa'].mean():.2f} & \
+            {sa_df['actual_sa_mean'].mean():.2f} & {sa_df['sa_mean'].mean():.2f} \
+            $\pm$({sa_df['sa_sigma'].mean():.2f}) \\\\"
         )
 
 

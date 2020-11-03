@@ -11,7 +11,6 @@ from derived_object_msgs.msg import ObjectArray, Object
 from sensor_msgs.msg import CameraInfo, Image
 from driver_awareness_msgs.msg import ROIArray, SA, GazeArray
 from awareness_detector.sa import (
-    SituationElement,
     SituationAwareness,
     GazeBuffer,
     PunishmentModel,

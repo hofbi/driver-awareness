@@ -128,10 +128,10 @@ class ManeuverOppositeDirectionPedestrian(BasicScenario):
             * second_prop_waypoint.lane_width
             * math.sin(math.radians(position_yaw)),
         )
-        second_prop_transform = carla.Transform(
-            second_prop_waypoint.transform.location + offset_location,
-            first_actor_transform.rotation,
-        )
+        # second_prop_transform = carla.Transform(
+        #     second_prop_waypoint.transform.location + offset_location,
+        #     first_actor_transform.rotation,
+        # )
 
         # second_prop_actor = CarlaActorPool.request_new_actor(
         # first_actor_model, second_prop_transform)
@@ -146,8 +146,8 @@ class ManeuverOppositeDirectionPedestrian(BasicScenario):
 
         self.other_actors.append(first_actor)
         self.other_actors.append(second_actor)
-        if self._obstacle_type != "vehicle":
-            self.other_actors.append(second_prop_actor)
+        # if self._obstacle_type != "vehicle":
+            # self.other_actors.append(second_prop_actor)
 
         self._source_transform = second_actor_waypoint.transform
         sink_waypoint = second_actor_waypoint.next(1)[0]

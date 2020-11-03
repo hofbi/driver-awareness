@@ -4,7 +4,7 @@
 # This work is licensed under the terms of the MIT license.
 # For a copy, see <https://opensource.org/licenses/MIT>.
 """
-Scenario where the hero is doing a right turn. Additionally to the 
+Scenario where the hero is doing a right turn. Additionally to the
 car coming from the left there is pedestrian walking and a parking car
 after turning right.
 """
