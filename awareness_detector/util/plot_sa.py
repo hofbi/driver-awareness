@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from pathlib import Path
 import os
-import numpy as np
 import tikzplotlib
 import argparse
 
@@ -33,7 +32,7 @@ def plot_data(input_dir, output_dir, main_scenario, show_plot):
         tikzplotlib.save(output_dir.joinpath("sa_measure.tex"))
         clear_plot_data()
 
-    actual_headers = sa_df.filter(regex="actual_sa_\d").columns
+    actual_headers = sa_df.filter(regex=r"actual_sa_\d").columns
 
     plt.figure("Individual SAs for a turn with 3 users", figsize=[24, 3])
     for index, name in enumerate(actual_headers):
@@ -71,7 +70,8 @@ def plot_data(input_dir, output_dir, main_scenario, show_plot):
         clear_plot_data()
 
     print(
-        "Scenario & $\overline{SA}_{opt}$ & $\overline{SA}_{act}$ & $\overline{SA}_{ratio}$ ($\pm\sigma$) \\\\ \hline"
+        "Scenario & \
+        $\overline{SA}_{opt}$ & $\overline{SA}_{act}$ & $\overline{SA}_{ratio}$ ($\pm\sigma$) \\\\ \hline"  # noqa: W605
     )
     for file_name in [
         input_dir.joinpath(file_name)
@@ -80,7 +80,9 @@ def plot_data(input_dir, output_dir, main_scenario, show_plot):
     ]:
         sa_df = pd.read_csv(file_name)
         print(
-            f"{file_name.stem} & {sa_df['optimal_sa'].mean():.2f} & {sa_df['actual_sa_mean'].mean():.2f} & {sa_df['sa_mean'].mean():.2f} $\pm$({sa_df['sa_sigma'].mean():.2f}) \\\\"
+            f"{file_name.stem} & {sa_df['optimal_sa'].mean():.2f} & \
+            {sa_df['actual_sa_mean'].mean():.2f} & {sa_df['sa_mean'].mean():.2f} \
+            $\pm$({sa_df['sa_sigma'].mean():.2f}) \\\\"  # noqa: W605
         )
 
 

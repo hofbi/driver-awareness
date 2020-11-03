@@ -11,6 +11,7 @@ from gaze_detector.geometry import PygameColor, GazeData, Circle
 from gaze_detector import files, geometry
 import pygame
 import time
+import os
 
 
 class GazeVisualizer:

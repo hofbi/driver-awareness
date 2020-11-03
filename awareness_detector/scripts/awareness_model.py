@@ -8,13 +8,11 @@ from awareness_detector.sa import (
     GazeBuffer,
     SituationAwareness,
     SituationAwarenessParameter,
-    SituationElement,
     SituationElementTracker,
     DistanceTrackingStrategy,
     PunishmentModel,
 )
 from awareness_detector.view import (
-    Color,
     ScreenParameter,
     CameraAdjustment,
     ImageVisualization,

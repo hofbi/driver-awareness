@@ -10,7 +10,7 @@ Acts as an interface to the eye tracking device and publishes the measurements a
 
 * Connects to the Pupil Capture software over the network interface using ZMQ.
 * Gaze and fixation measurements are received in normalized coordinates [0,1] on the defined surfaces.
-* The surface is here the screen of the operator. The surface of the monitor can be tracked by the Pupil Capture application using markers placed around the screen. Refer to https://docs.pupil-labs.com/core/software/pupil-capture/#surface-tracking.
+* The surface is here the screen of the operator. The surface of the monitor can be tracked by the Pupil Capture application using markers placed around the screen. Refer to [Pupil Docs Surface Tracking](https://docs.pupil-labs.com/core/software/pupil-capture/#surface-tracking).
 * The normalized coordinates are converted into pixel coordinates.
 
 ```shell
