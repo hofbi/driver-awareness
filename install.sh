@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 TURBO_JPEG='1.5.1'
-PUPIL_RELEASE='v2.4'
-PUPIL_VERSION="${PUPIL_RELEASE}-0-gf4aff3e"
+PUPIL_RELEASE='v2.5'
+PUPIL_VERSION="${PUPIL_RELEASE}-0-g70e93bc"
 
 sudo apt update && sudo apt install -y apt-utils
 
@@ -31,6 +31,8 @@ cmake -DBUILD_SHARED_LIBS=ON ..
 make
 sudo make install
 sudo ldconfig
+popd || exit
+popd || exit
 
 # Turbojpeg
 wget -O libjpeg-turbo.tar.gz https://sourceforge.net/projects/libjpeg-turbo/files/${TURBO_JPEG}/libjpeg-turbo-${TURBO_JPEG}.tar.gz/download
@@ -65,11 +67,9 @@ sudo udevadm trigger
 # Install Pupil Release
 wget https://github.com/pupil-labs/pupil/releases/download/${PUPIL_RELEASE}/pupil_${PUPIL_VERSION}_linux_x64.zip
 unzip pupil_${PUPIL_VERSION}_linux_x64.zip
-pushd pupil_${PUPIL_VERSION}_linux_x64 || exit
-sudo apt install -y ./pupil_capture_linux_os_x64_${PUPIL_VERSION}.deb
-sudo apt install -y ./pupil_player_linux_os_x64_${PUPIL_VERSION}.deb
-sudo apt install -y ./pupil_service_linux_os_x64_${PUPIL_VERSION}.deb
-popd || exit
+sudo apt install -y ./pupil_${PUPIL_VERSION}_linux_x64/pupil_capture_linux_os_x64_${PUPIL_VERSION}.deb
+sudo apt install -y ./pupil_${PUPIL_VERSION}_linux_x64/pupil_player_linux_os_x64_${PUPIL_VERSION}.deb
+sudo apt install -y ./pupil_${PUPIL_VERSION}_linux_x64/pupil_service_linux_os_x64_${PUPIL_VERSION}.deb
 rm -rf pupil_${PUPIL_VERSION}_linux_x64*
 
 # Clone pupil repo
