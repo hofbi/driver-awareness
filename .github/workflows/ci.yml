@@ -27,7 +27,8 @@ jobs:
       uses: docker://github/super-linter:v3.10.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        VALIDATE_PYTHON: false # Already configured in make check
+        VALIDATE_BASH: false # Already configured in make check
+        VALIDATE_DOCKERFILE_HADOLINT: false
 
   ros:
     runs-on: ubuntu-latest

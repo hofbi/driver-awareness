@@ -2,7 +2,6 @@
 """Helper tool to remove waiting time at beggining of bag if car did not drive yet"""
 
 import rosbag
-from carla_msgs.msg import CarlaEgoVehicleInfo
 import time
 import argparse
 import os

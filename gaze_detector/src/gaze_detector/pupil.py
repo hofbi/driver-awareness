@@ -45,10 +45,12 @@ def connect_pupil(pupil_ip, port):
     # Request 'PUB_PORT' from the pupil remote for writing data (pupil remote plugin has to be running in capture GUI)
     pupil_remote.send_string("PUB_PORT")
     pub_port = pupil_remote.recv_string()
+    rospy.loginfo(f"Requesting PUB_PORT: {pub_port}")
 
     # Assumes `sub_port` to be set to the current subscription port
     pupil_subscriber = ctx.socket(zmq.SUB)
     pupil_subscriber.connect(f"tcp://{pupil_ip}:{sub_port}")
+    rospy.loginfo(f"Subscribing to: tcp://{pupil_ip}:{sub_port}")
 
     return pupil_remote, pupil_subscriber
 
