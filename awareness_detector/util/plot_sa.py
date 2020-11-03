@@ -70,8 +70,8 @@ def plot_data(input_dir, output_dir, main_scenario, show_plot):
         clear_plot_data()
 
     print(
-        # noqa: W605
-        "Scenario & $\overline{SA}_{opt}$ & $\overline{SA}_{act}$ & $\overline{SA}_{ratio}$ ($\pm\sigma$) \\\\ \hline"
+        "Scenario & \
+        $\overline{SA}_{opt}$ & $\overline{SA}_{act}$ & $\overline{SA}_{ratio}$ ($\pm\sigma$) \\\\ \hline"  # noqa: W605
     )
     for file_name in [
         input_dir.joinpath(file_name)
