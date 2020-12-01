@@ -171,14 +171,14 @@ class ObjectAwarenessModel:
         filtered_objects = self.__object_filter.type_filter(object_array.objects)
         filtered_objects = self.transform_objects(filtered_objects)
         filtered_objects = self.__object_filter.geometry_filter(filtered_objects)
-        objects_2d = [
+        rois = [
             self.__bounding_box_converter.convert(
                 obj, self.__object_filter.get_topic_for_object(obj)
-            )
+            ).to_roi_msg()
             for obj in filtered_objects
         ]
 
-        self.__roi_tracker.add_or_update_ses(objects_2d)
+        self.__roi_tracker.add_or_update_ses(rois)
         self.__roi_tracker.update_elements(self.__gaze_buffer.data)
         self.__situation_awareness.calculate_sa(
             self.__roi_tracker.se_list, self.__roi_tracker.non_roi_gazes

@@ -223,6 +223,13 @@ class SituationElementTracker:
     def non_roi_gazes(self):
         return self.__non_roi_gazes
 
+    @staticmethod
+    def update_best_candidate(candidates, roi_msg):
+        for candidate in candidates:
+            if not candidate.has_changed:
+                candidate.update_msg(roi_msg)
+                break
+
     def update_elements(self, gaze_points):
         """Update all SEs and remove if not alive"""
         gazes_inside_list = [[False] * len(gaze_points)]
@@ -243,16 +250,16 @@ class SituationElementTracker:
         for dead_element in dead_elements:
             self.__se_list.remove(dead_element)
 
-    def add_or_update_ses(self, se_array):
+    def add_or_update_ses(self, roi_array):
         """Add new SEs to the list of tracked elements or update if they already exist"""
-        for se_msg in se_array:
+        for roi_msg in roi_array:
             best_candidates = self.__tracking_strategy.find_best_candidates(
-                self.__se_list, se_msg
+                self.__se_list, roi_msg
             )
             if best_candidates:
-                self.__tracking_strategy.update_best_candidate(best_candidates, se_msg)
+                self.update_best_candidate(best_candidates, roi_msg)
             else:
-                self.__se_list.append(SituationElement(se_msg, self.__sa_parameter))
+                self.__se_list.append(SituationElement(roi_msg, self.__sa_parameter))
 
 
 class DistanceTrackingStrategy:
@@ -268,28 +275,12 @@ class DistanceTrackingStrategy:
             if current_se.distance_to(roi_msg) < self.__max_tracking_distance
         ]
 
-    @staticmethod
-    def update_best_candidate(candidates, roi_msg):
-        for candidate in candidates:
-            if not candidate.has_changed:
-                candidate.update_msg(roi_msg)
-                break
-
 
 class IdTrackingStrategy:
     """Id based SE tracking strategy"""
 
     @staticmethod
-    def find_best_candidates(se_list, object_2d):
+    def find_best_candidates(se_list, roi_msg):
         return [
-            current_se
-            for current_se in se_list
-            if current_se.roi_msg.id == object_2d.id
+            current_se for current_se in se_list if current_se.roi_msg.id == roi_msg.id
         ]
-
-    @staticmethod
-    def update_best_candidate(candidates, object_2d):
-        for candidate in candidates:
-            if not candidate.has_changed:
-                candidate.update_msg(object_2d.to_roi_msg())
-                break

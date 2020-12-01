@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 TURBO_JPEG='1.5.1'
-PUPIL_RELEASE='v2.5'
-PUPIL_VERSION="${PUPIL_RELEASE}-0-g70e93bc"
+PUPIL_RELEASE='v2.6'
+PUPIL_VERSION="${PUPIL_RELEASE}-19-g6344358"
 
 sudo apt update && sudo apt install -y apt-utils
 
@@ -19,20 +19,6 @@ sudo apt install -y python3-opencv libopencv-dev
 # 3D Eye model dependencies
 sudo apt install -y libgoogle-glog-dev libatlas-base-dev libeigen3-dev
 sudo apt install -y libceres-dev
-
-# glfw
-sudo apt install -y xorg-dev
-git clone https://github.com/glfw/glfw
-pushd glfw || exit
-git checkout 3.3.2
-mkdir build
-pushd build || exit
-cmake -DBUILD_SHARED_LIBS=ON ..
-make
-sudo make install
-sudo ldconfig
-popd || exit
-popd || exit
 
 # Turbojpeg
 wget -O libjpeg-turbo.tar.gz https://sourceforge.net/projects/libjpeg-turbo/files/${TURBO_JPEG}/libjpeg-turbo-${TURBO_JPEG}.tar.gz/download
@@ -77,27 +63,8 @@ git clone https://github.com/pupil-labs/pupil.git ~/dev/pupil
 python3 ~/dev/pupil/pupil_src/main.py capture --help
 
 # Install requirements
-python3 -m pip install --upgrade pip
-
-pip3 install cysignals
-pip3 install cython
-pip3 install msgpack==0.5.6
-pip3 install numexpr
-pip3 install packaging
-pip3 install psutil
-pip3 install pyaudio
-pip3 install pyopengl
-pip3 install pyzmq
-pip3 install scikit-learn
-pip3 install scipy
-pip3 install git+https://github.com/zeromq/pyre
-
-pip3 install pupil-apriltags
-pip3 install pupil-detectors
-pip3 install git+https://github.com/pupil-labs/PyAV
-pip3 install git+https://github.com/pupil-labs/pyuvc
-pip3 install git+https://github.com/pupil-labs/pyndsi
-pip3 install git+https://github.com/pupil-labs/pyglui
+python3 -m pip install --upgrade pip wheel
+pip3 install -r ~/dev/pupil/requirements.txt
 
 # Our requirements
 sudo apt install -y libsdl2-dev ros-noetic-opencv-apps ros-noetic-derived-object-msgs

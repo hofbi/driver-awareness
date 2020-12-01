@@ -360,6 +360,10 @@ class SituationElementTrackerTest(unittest.TestCase):
     """Situation Element Tracker Test"""
 
     def setUp(self):
+        self.se_list = [
+            SituationElement(ROI(), TEST_SA_PARAMETER),
+            SituationElement(create_roi(10, 5), TEST_SA_PARAMETER),
+        ]
         self.test_gazes = [create_gaze(0, 0), create_gaze(0, 1), create_gaze(1, 0)]
         self.mock = MagicMock()
         self.mock.find_best_candidates.return_value = []
@@ -445,6 +449,30 @@ class SituationElementTrackerTest(unittest.TestCase):
         self.assertFalse(tracker.se_list)
         self.assertEqual(2, len(tracker.non_roi_gazes))
 
+    def test_update_best_candidate__no_candidates__nothing_changed(self):
+        SituationElementTracker.update_best_candidate([], ROI())
+
+        self.assertTrue(True)
+
+    def test_update_best_candidate__one_candidate__candidate_updated(self):
+        element = SituationElement(self.se_list[1].roi_msg, TEST_SA_PARAMETER)
+        element.update(0)
+        roi = create_roi(0.5, 0.5)
+
+        SituationElementTracker.update_best_candidate([element], roi)
+
+        self.assertEqual(element.roi_msg, roi)
+
+    def test_update_best_candidate__one_candidate_changed__no_candidate_updated(
+        self,
+    ):
+        element = SituationElement(self.se_list[1].roi_msg, TEST_SA_PARAMETER)
+        roi = create_roi(0.5, 0.5)
+
+        SituationElementTracker.update_best_candidate([element], roi)
+
+        self.assertEqual(element.roi_msg, self.se_list[1].roi_msg)
+
 
 class DistanceTrackingStrategyTest(unittest.TestCase):
     """Distance Tracking Strategy Test"""
@@ -491,30 +519,6 @@ class DistanceTrackingStrategyTest(unittest.TestCase):
         result = unit.find_best_candidates(self.se_list, roi)
 
         self.assertEqual(2, len(result))
-
-    def test_update_best_candidate__no_candidates__nothing_changed(self):
-        self.unit.update_best_candidate([], ROI())
-
-        self.assertTrue(True)
-
-    def test_update_best_candidate__one_candidate__candidate_updated(self):
-        element = SituationElement(self.se_list[1].roi_msg, TEST_SA_PARAMETER)
-        element.update(0)
-        roi = create_roi(0.5, 0.5)
-
-        self.unit.update_best_candidate([element], roi)
-
-        self.assertEqual(element.roi_msg, roi)
-
-    def test_update_best_candidate__one_candidate_changed__no_candidate_updated(
-        self,
-    ):
-        element = SituationElement(self.se_list[1].roi_msg, TEST_SA_PARAMETER)
-        roi = create_roi(0.5, 0.5)
-
-        self.unit.update_best_candidate([element], roi)
-
-        self.assertEqual(element.roi_msg, self.se_list[1].roi_msg)
 
 
 class GazeBufferTest(unittest.TestCase):
@@ -571,30 +575,6 @@ class IdTrackingStrategyTest(unittest.TestCase):
         result = self.unit.find_best_candidates(self.se_list, Object2D(1, None, None))
 
         self.assertEqual(1, len(result))
-
-    def test_update_best_candidate__no_candidates__nothing_changed(self):
-        self.unit.update_best_candidate([], Object2D(None, None, None))
-
-        self.assertTrue(True)
-
-    def test_update_best_candidate__one_candidate__candidate_updated(self):
-        element = SituationElement(self.se_list[1].roi_msg, TEST_SA_PARAMETER)
-        element.update(0)
-        object_2d = Object2D(1, Rect(), None)
-
-        self.unit.update_best_candidate([element], object_2d)
-
-        self.assertEqual(element.roi_msg, object_2d.to_roi_msg())
-
-    def test_update_best_candidate__one_candidate_changed__no_candidate_updated(
-        self,
-    ):
-        element = SituationElement(self.se_list[1].roi_msg, TEST_SA_PARAMETER)
-        object_2d = Object2D(1, None, None)
-
-        self.unit.update_best_candidate([element], object_2d)
-
-        self.assertEqual(element.roi_msg, self.se_list[1].roi_msg)
 
 
 class SATestSuite(unittest.TestSuite):
