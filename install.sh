@@ -80,6 +80,24 @@ sudo apt install -y libsdl2-dev ros-noetic-opencv-apps ros-noetic-derived-object
 pip3 install -r "$SCRIPT_DIR"/requirements.txt
 pip3 install -r "$SCRIPT_DIR"/requirements-dev.txt
 
+# TELECARLA
 git clone https://github.com/hofbi/telecarla.git "$WS_SRC"/telecarla && mv "$WS_SRC"/telecarla/telecarla_manual_control . && rm -rf "$WS_SRC"/telecarla/
+
+# CARLA ROS Bridge
+sudo apt-get install -y \
+    ros-noetic-ackermann-msgs \
+    ros-noetic-vision-opencv \
+    ros-noetic-rospy-message-converter \
+    ros-noetic-rviz \
+    ros-noetic-rqt-image-view \
+    ros-noetic-pcl-ros
+git clone --recurse-submodules https://github.com/carla-simulator/ros-bridge.git "$WS_SRC"/ros-bridge
+rm -rf "$WS_SRC"/ros-bridge/rqt_carla_control \
+    "$WS_SRC"/ros-bridge/rviz_carla_plugin \
+    "$WS_SRC"/ros-bridge/pcl_recorder \
+    "$WS_SRC"/ros-bridge/carla_ad_demo
+rosdep update
+rosdep install --from-paths src --ignore-src -r
+pip3 install -r "$WS_SRC"/ros-bridge/requirements.txt
 
 echo "Finished Driver Awareness Setup"
