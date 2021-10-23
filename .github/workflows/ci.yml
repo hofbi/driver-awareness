@@ -51,7 +51,7 @@ jobs:
       shell: bash
       run: |
         sudo apt-get update
-        sudo apt-get install -y python${{ matrix.python_suffix }}-catkin-tools clang-tidy-10
+        sudo apt-get install -y python3-catkin-tools clang-tidy-10
         $GITHUB_WORKSPACE/install.sh
     - name: Init Workspace
       run: |

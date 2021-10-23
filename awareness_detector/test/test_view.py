@@ -45,7 +45,7 @@ class ViewTest(unittest.TestCase):
         self.assertEqual(Color.GREEN, result)
 
 
-class CameraAdjustmentTestWithoutPadding(unittest.TestCase):
+class CameraAdjustmentTest(unittest.TestCase):
     """Camera Adjustment Test"""
 
     def setUp(self):
@@ -70,27 +70,19 @@ class CameraAdjustmentTestWithoutPadding(unittest.TestCase):
 
         compare_gazes(self, create_gaze(400 / 2.25, 480 / 2.25), actual_gaze)
 
-
-class CameraAdjustmentTestWithPadding(unittest.TestCase):
-    """Camera Adjustment Test"""
-
-    def setUp(self):
-        screen_parameter = ScreenParameter(20, 20, 0, 10, 1920, 0, 1920, 1080, 640, 480)
-        self.camera_adjustment = CameraAdjustment(screen_parameter)
-
-    def test_adjust_gaze_data_to_camera_resolution__0_0(self):
+    def test_adjust_gaze_data_to_camera_resolution_with_padding_0_0(self):
         actual_gaze = create_gaze(0, 0)
         self.camera_adjustment.adjust_gaze_data_to_camera_resolution(actual_gaze)
 
         compare_gazes(self, create_gaze(-20 / 2.1875, -20 / 2.1875), actual_gaze)
 
-    def test_adjust_gaze_data_to_camera_resolution__240_0(self):
+    def test_adjust_gaze_data_to_camera_resolution_with_padding_240_0(self):
         actual_gaze = create_gaze(20, 20)
         self.camera_adjustment.adjust_gaze_data_to_camera_resolution(actual_gaze)
 
         compare_gazes(self, create_gaze(0, 0), actual_gaze)
 
-    def test_adjust_gaze_data_to_camera_resolution__640_480(self):
+    def test_adjust_gaze_data_to_camera_resolution_with_padding_640_480(self):
         actual_gaze = create_gaze(1420, 1070)
         self.camera_adjustment.adjust_gaze_data_to_camera_resolution(actual_gaze)
 
@@ -103,5 +95,4 @@ class ViewTestSuite(unittest.TestSuite):
     def __init__(self):
         super(ViewTestSuite, self).__init__()
         self.addTest(ViewTest())
-        self.addTest(CameraAdjustmentTestWithoutPadding())
-        self.addTest(CameraAdjustmentTestWithPadding())
+        self.addTest(CameraAdjustmentTest())
