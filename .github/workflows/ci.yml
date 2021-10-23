@@ -39,7 +39,7 @@ jobs:
         VALIDATE_PYTHON_PYLINT: false  # Already configured in make check
         VALIDATE_PYTHON_ISORT: false
 
-    ros:
+  ros:
     runs-on: ubuntu-latest
     container:
       image: ros:noetic-robot
