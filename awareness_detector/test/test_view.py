@@ -49,42 +49,58 @@ class CameraAdjustmentTest(unittest.TestCase):
     """Camera Adjustment Test"""
 
     def setUp(self):
-        screen_parameter = ScreenParameter(0, 0, 0, 0, 1920, 0, 1920, 1080, 640, 480)
-        self.camera_adjustment = CameraAdjustment(screen_parameter)
+        self.screen_parameter = ScreenParameter(
+            0, 0, 0, 0, 1920, 0, 1920, 1080, 640, 480
+        )
+        self.screen_parameter_padding = ScreenParameter(
+            20, 20, 0, 10, 1920, 0, 1920, 1080, 640, 480
+        )
 
     def test_adjust_gaze_data_to_camera_resolution__0_0(self):
+        unit = CameraAdjustment(self.screen_parameter)
+
         actual_gaze = create_gaze(0, 0)
-        self.camera_adjustment.adjust_gaze_data_to_camera_resolution(actual_gaze)
+        unit.adjust_gaze_data_to_camera_resolution(actual_gaze)
 
         compare_gazes(self, create_gaze(-240.0 / 2.25, 0), actual_gaze)
 
     def test_adjust_gaze_data_to_camera_resolution__240_0(self):
+        unit = CameraAdjustment(self.screen_parameter)
+
         actual_gaze = create_gaze(240, 0)
-        self.camera_adjustment.adjust_gaze_data_to_camera_resolution(actual_gaze)
+        unit.adjust_gaze_data_to_camera_resolution(actual_gaze)
 
         compare_gazes(self, create_gaze(0, 0), actual_gaze)
 
     def test_adjust_gaze_data_to_camera_resolution__640_480(self):
+        unit = CameraAdjustment(self.screen_parameter)
+
         actual_gaze = create_gaze(640, 480)
-        self.camera_adjustment.adjust_gaze_data_to_camera_resolution(actual_gaze)
+        unit.adjust_gaze_data_to_camera_resolution(actual_gaze)
 
         compare_gazes(self, create_gaze(400 / 2.25, 480 / 2.25), actual_gaze)
 
-    def test_adjust_gaze_data_to_camera_resolution_with_padding_0_0(self):
+    def test_adjust_gaze_data_to_camera_resolution_padding__0_0(self):
+        unit = CameraAdjustment(self.screen_parameter_padding)
+
         actual_gaze = create_gaze(0, 0)
-        self.camera_adjustment.adjust_gaze_data_to_camera_resolution(actual_gaze)
+        unit.adjust_gaze_data_to_camera_resolution(actual_gaze)
 
         compare_gazes(self, create_gaze(-20 / 2.1875, -20 / 2.1875), actual_gaze)
 
-    def test_adjust_gaze_data_to_camera_resolution_with_padding_240_0(self):
+    def test_adjust_gaze_data_to_camera_resolution_padding__240_0(self):
+        unit = CameraAdjustment(self.screen_parameter_padding)
+
         actual_gaze = create_gaze(20, 20)
-        self.camera_adjustment.adjust_gaze_data_to_camera_resolution(actual_gaze)
+        unit.adjust_gaze_data_to_camera_resolution(actual_gaze)
 
         compare_gazes(self, create_gaze(0, 0), actual_gaze)
 
-    def test_adjust_gaze_data_to_camera_resolution_with_padding_640_480(self):
+    def test_adjust_gaze_data_to_camera_resolution_padding__640_480(self):
+        unit = CameraAdjustment(self.screen_parameter_padding)
+
         actual_gaze = create_gaze(1420, 1070)
-        self.camera_adjustment.adjust_gaze_data_to_camera_resolution(actual_gaze)
+        unit.adjust_gaze_data_to_camera_resolution(actual_gaze)
 
         compare_gazes(self, create_gaze(640, 480), actual_gaze)
 

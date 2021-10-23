@@ -57,7 +57,7 @@ jobs:
       run: |
         mkdir -p $GITHUB_WORKSPACE/../catkin_ws/src
         cd $GITHUB_WORKSPACE/../catkin_ws/src
-        ln -s $GITHUB_WORKSPACE telecarla
+        ln -s $GITHUB_WORKSPACE driver-awareness
         ln -s $GITHUB_WORKSPACE/../ros-bridge ros-bridge
         cd ..
         catkin init

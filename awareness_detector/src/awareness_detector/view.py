@@ -3,6 +3,7 @@
 import cv2
 from cv_bridge import CvBridge
 import numpy as np
+from dataclasses import dataclass
 
 from driver_awareness_msgs.msg import ROI
 from awareness_detector.sa import SituationElement
@@ -71,73 +72,20 @@ class Color:
     BLACK = (0, 0, 0)
 
 
+@dataclass
 class ScreenParameter:
     """Groups all screen related parameter"""
 
-    def __init__(
-        self,
-        top_px,
-        left_px,
-        right_px,
-        bottom_px,
-        window_pos_x_px,
-        window_pos_y_px,
-        monitor_resolution_x_px,
-        monitor_resolution_y_px,
-        camera_resolution_x_px,
-        camera_resolution_y_px,
-    ):
-        self.__top_px = top_px
-        self.__left_px = left_px
-        self.__right_px = right_px
-        self.__bottom_px = bottom_px
-
-        self.__window_pos_x_px = window_pos_x_px
-        self.__window_pos_y_px = window_pos_y_px
-        self.__monitor_resolution_x_px = monitor_resolution_x_px
-        self.__monitor_resolution_y_px = monitor_resolution_y_px
-        self.__camera_resolution_x_px = camera_resolution_x_px
-        self.__camera_resolution_y_px = camera_resolution_y_px
-
-    @property
-    def top_px(self):
-        return self.__top_px
-
-    @property
-    def left_px(self):
-        return self.__left_px
-
-    @property
-    def right_px(self):
-        return self.__right_px
-
-    @property
-    def bottom_px(self):
-        return self.__bottom_px
-
-    @property
-    def window_pos_x_px(self):
-        return self.__window_pos_x_px
-
-    @property
-    def window_pos_y_px(self):
-        return self.__window_pos_y_px
-
-    @property
-    def monitor_resolution_x_px(self):
-        return self.__monitor_resolution_x_px
-
-    @property
-    def monitor_resolution_y_px(self):
-        return self.__monitor_resolution_y_px
-
-    @property
-    def camera_resolution_x_px(self):
-        return self.__camera_resolution_x_px
-
-    @property
-    def camera_resolution_y_px(self):
-        return self.__camera_resolution_y_px
+    top_px: int = 0
+    left_px: int = 0
+    right_px: int = 0
+    bottom_px: int = 0
+    window_pos_x_px: int = 1920
+    window_pos_y_px: int = 0
+    monitor_resolution_x_px: int = 1920
+    monitor_resolution_y_px: int = 1080
+    camera_resolution_x_px: int = 640
+    camera_resolution_y_px: int = 480
 
 
 class CameraAdjustment:
