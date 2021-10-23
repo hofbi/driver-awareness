@@ -4,6 +4,15 @@ TURBO_JPEG='1.5.1'
 PUPIL_RELEASE='v2.6'
 PUPIL_VERSION="${PUPIL_RELEASE}-19-g6344358"
 
+# Create a log file of the installation process as well as displaying it
+exec > >(tee driver-awareness-install.log)
+exec 2>&1
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WS_SRC="${SCRIPT_DIR}"/..
+
+pushd "$WS_SRC" || exit
+
 sudo apt update && sudo apt install -y apt-utils
 
 echo 'Install Pupil Labs'
@@ -59,18 +68,36 @@ sudo apt install -y ./pupil_${PUPIL_VERSION}_linux_x64/pupil_service_linux_os_x6
 rm -rf pupil_${PUPIL_VERSION}_linux_x64*
 
 # Clone pupil repo
-git clone https://github.com/pupil-labs/pupil.git ~/dev/pupil
-python3 ~/dev/pupil/pupil_src/main.py capture --help
+git clone https://github.com/pupil-labs/pupil.git "$WS_SRC"/pupil
+python3 "$WS_SRC"/pupil/pupil_src/main.py capture --help
 
 # Install requirements
 python3 -m pip install --upgrade pip wheel
-pip3 install -r ~/dev/pupil/requirements.txt
+pip3 install -r "$WS_SRC"/pupil/requirements.txt
 
 # Our requirements
 sudo apt install -y libsdl2-dev ros-noetic-opencv-apps ros-noetic-derived-object-msgs
+pip3 install -r "$SCRIPT_DIR"/requirements.txt
+pip3 install -r "$SCRIPT_DIR"/requirements-dev.txt
 
-# Carla Ros Bridge
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1AF1527DE64CB8D9
-sudo add-apt-repository "deb [arch=amd64] http://dist.carla.org/carla $(lsb_release -sc) main"
-sudo apt-get update
-sudo apt-get install -y carla-ros-bridge
+# TELECARLA
+git clone https://github.com/hofbi/telecarla.git "$WS_SRC"/telecarla && mv "$WS_SRC"/telecarla/telecarla_manual_control . && rm -rf "$WS_SRC"/telecarla/
+
+# CARLA ROS Bridge
+sudo apt-get install -y \
+    ros-noetic-ackermann-msgs \
+    ros-noetic-vision-opencv \
+    ros-noetic-rospy-message-converter \
+    ros-noetic-rviz \
+    ros-noetic-rqt-image-view \
+    ros-noetic-pcl-ros
+git clone --recurse-submodules https://github.com/carla-simulator/ros-bridge.git "$WS_SRC"/ros-bridge
+rm -rf "$WS_SRC"/ros-bridge/rqt_carla_control \
+    "$WS_SRC"/ros-bridge/rviz_carla_plugin \
+    "$WS_SRC"/ros-bridge/pcl_recorder \
+    "$WS_SRC"/ros-bridge/carla_ad_demo
+rosdep update
+rosdep install --from-paths src --ignore-src -r
+pip3 install -r "$WS_SRC"/ros-bridge/requirements.txt
+
+echo "Finished Driver Awareness Setup"

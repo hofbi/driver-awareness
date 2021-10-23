@@ -3,6 +3,7 @@
 import cv2
 from cv_bridge import CvBridge
 import numpy as np
+from dataclasses import dataclass
 
 from driver_awareness_msgs.msg import ROI
 from awareness_detector.sa import SituationElement
@@ -71,54 +72,20 @@ class Color:
     BLACK = (0, 0, 0)
 
 
+@dataclass
 class ScreenParameter:
     """Groups all screen related parameter"""
 
-    def __init__(
-        self,
-        offset_topbar_px,
-        window_pos_x_px,
-        window_pos_y_px,
-        monitor_resolution_x_px,
-        monitor_resolution_y_px,
-        camera_resolution_x_px,
-        camera_resolution_y_px,
-    ):
-        self.__offset_topbar_px = offset_topbar_px
-        self.__window_pos_x_px = window_pos_x_px
-        self.__window_pos_y_px = window_pos_y_px
-        self.__monitor_resolution_x_px = monitor_resolution_x_px
-        self.__monitor_resolution_y_px = monitor_resolution_y_px
-        self.__camera_resolution_x_px = camera_resolution_x_px
-        self.__camera_resolution_y_px = camera_resolution_y_px
-
-    @property
-    def offset_topbar_px(self):
-        return self.__offset_topbar_px
-
-    @property
-    def window_pos_x_px(self):
-        return self.__window_pos_x_px
-
-    @property
-    def window_pos_y_px(self):
-        return self.__window_pos_y_px
-
-    @property
-    def monitor_resolution_x_px(self):
-        return self.__monitor_resolution_x_px
-
-    @property
-    def monitor_resolution_y_px(self):
-        return self.__monitor_resolution_y_px
-
-    @property
-    def camera_resolution_x_px(self):
-        return self.__camera_resolution_x_px
-
-    @property
-    def camera_resolution_y_px(self):
-        return self.__camera_resolution_y_px
+    top_px: int = 0
+    left_px: int = 0
+    right_px: int = 0
+    bottom_px: int = 0
+    window_pos_x_px: int = 1920
+    window_pos_y_px: int = 0
+    monitor_resolution_x_px: int = 1920
+    monitor_resolution_y_px: int = 1080
+    camera_resolution_x_px: int = 640
+    camera_resolution_y_px: int = 480
 
 
 class CameraAdjustment:
@@ -126,23 +93,28 @@ class CameraAdjustment:
     compensates for this."""
 
     def __init__(self, screen_parameter):
-        self.__offset_topbar_px = screen_parameter.offset_topbar_px
+        self.__top_px = screen_parameter.top_px
+
         self.__image_scale_factor_y = (
-            screen_parameter.monitor_resolution_y_px - self.__offset_topbar_px
+            screen_parameter.monitor_resolution_y_px
+            - self.__top_px
+            - screen_parameter.bottom_px
         ) / float(screen_parameter.camera_resolution_y_px)
         image_width = (
             screen_parameter.camera_resolution_x_px * self.__image_scale_factor_y
         )
         self.__image_offset = (
-            screen_parameter.monitor_resolution_x_px - image_width
-        ) / 2.0
+            (screen_parameter.monitor_resolution_x_px - image_width) / 2.0
+            if screen_parameter.left_px == 0
+            else screen_parameter.left_px
+        )
 
     def adjust_gaze_data_to_camera_resolution(self, gaze_data):
         gaze_data.gaze_pixel.x = (
             gaze_data.gaze_pixel.x - self.__image_offset
         ) / self.__image_scale_factor_y
         gaze_data.gaze_pixel.y = (
-            gaze_data.gaze_pixel.y - self.__offset_topbar_px
+            gaze_data.gaze_pixel.y - self.__top_px
         ) / self.__image_scale_factor_y
 
 

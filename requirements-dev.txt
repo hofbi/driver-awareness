@@ -1,5 +1,6 @@
 black
 pylint
+flake8
 cmake_format
 shellcheck-py
 tikzplotlib

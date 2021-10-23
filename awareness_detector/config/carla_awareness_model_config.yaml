@@ -1,10 +1,24 @@
+screen:
+  window_pos:          # Place the window (if you have a multi display setup)
+    x_px: 1920
+    y_px: 0
+  padding:             # Declare padding if your window is not fullscreen (offset from the corresponding screen edge in pixel)
+    top_px: 0
+    left_px: 0
+    right_px: 0
+    bottom_px: 0
+  monitor_resolution:  # Resolution of the display area
+    x_px: 1920
+    y_px: 1080
+  camera_resolution:   # Resolution of the camera
+    x_px: 640
+    y_px: 480
 objects:
   max_distance_m: 100
   roi_required_distance_m: 40
 min_2d_boundingbox:
   x_px: 90
   y_px: 90
-offset_topbar_px: 30
 camera_fov_deg: 90
 awareness_detection:
   time_last_looked_detected_s: 5.0

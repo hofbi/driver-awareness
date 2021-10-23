@@ -1,11 +1,18 @@
 screen:
-  window_pos_x_px: 1920
-  window_pos_y_px: 0
-  offset_topbar_px: 0
-  monitor_resolution_x_px: 1920
-  monitor_resolution_y_px: 1080
-  camera_resolution_x_px: 640
-  camera_resolution_y_px: 480
+  window_pos:          # Place the window (if you have a multi display setup)
+    x_px: 1920
+    y_px: 0
+  padding:             # Declare padding if your window is not fullscreen (offset from the corresponding screen edge in pixel)
+    top_px: 0
+    left_px: 0
+    right_px: 0
+    bottom_px: 0
+  monitor_resolution:  # Resolution of the display area
+    x_px: 1920
+    y_px: 1080
+  camera_resolution:   # Resolution of the camera
+    x_px: 640
+    y_px: 480
 awareness_detection:
   time_last_looked_detected_s: 5.0
   num_gaze_comprehended_s:  35.0

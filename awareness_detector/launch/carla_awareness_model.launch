@@ -1,14 +1,14 @@
 <launch>
     <arg name="gaze_topic" default="/gaze_publisher/gaze"/>
-    <arg name="fixation_topic" default="/gaze_publisher/fixation"/>
-    <arg name="ego_vehicle_name" default="ego_vehicle"/>
+    <arg name="camera_tf_name" default="/carla/ego_vehicle/camera/rgb/front"/>
+    <arg name="vehicle_info_topic" default="/carla/ego_vehicle/vehicle_info"/>
     <arg name="visualize" default="True"/>
     <arg name="config_path" default="$(find awareness_detector)/config/carla_awareness_model_config.yaml"/>
 
     <node name="awareness_detection" pkg="awareness_detector" type="carla_awareness_model.py" respawn="false" output="screen">
         <param name="gaze_topic" value="$(arg gaze_topic)"/>
-        <param name="fixation_topic" value="$(arg fixation_topic)"/>
-        <param name="ego_vehicle_name" value="$(arg ego_vehicle_name)"/>
+        <param name="camera_tf_name" value="$(arg camera_tf_name)"/>
+        <param name="vehicle_info_topic" value="$(arg vehicle_info_topic)"/>
         <param name="visualize" value="$(arg visualize)"/>
         <rosparam file="$(arg config_path)" command="load"/>
     </node>

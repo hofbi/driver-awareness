@@ -126,7 +126,7 @@ class Object2D:
 
 
 class BoundingBoxConverter:
-    """ Converts 3D bounding boxes from carla objects to 2d bounding boxes in camera frame """
+    """Converts 3D bounding boxes from carla objects to 2d bounding boxes in camera frame"""
 
     def __init__(
         self, tf_listener, cam_model, cam_fov_deg, min_x, min_y, type_required_distance
@@ -181,13 +181,13 @@ class BoundingBoxConverter:
 
     @staticmethod
     def project_point_on_fov(axis, fov):
-        """ Projects a point lying outside the fov onto the fov border """
+        """Projects a point lying outside the fov onto the fov border"""
         beta = (np.pi - np.radians(fov)) / 2.0
         point_distance_fov = axis / np.cos(beta)
         return np.sin(beta) * point_distance_fov
 
     def __transform_object_to_image_plane(self, points_3d, object_topic):
-        """' Transforms 3d points in object frame to 2d points in the image plane """
+        """' Transforms 3d points in object frame to 2d points in the image plane"""
         header = Header(frame_id=object_topic, stamp=rospy.Time(0))
         stamped_points = [
             PointStamped(header=header, point=point) for point in points_3d

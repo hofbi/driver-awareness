@@ -27,17 +27,21 @@ class AwarenessModel:
         rospy.loginfo("Starting Awareness model...")
 
         gaze_topic = rospy.get_param("~gaze_topic", "/gaze_publisher/gaze")
-        ego_vehicle_name = rospy.get_param("~ego_vehicle_name", "ego_vehicle")
-        roi_topic = f"/carla/{ego_vehicle_name}/camera/rgb/front/rois"
+        roi_topic = rospy.get_param(
+            "~roi_topic", "/carla/ego_vehicle/camera/rgb/front/rois"
+        )
 
         self.__screen_parameter = ScreenParameter(
-            rospy.get_param("~screen/offset_topbar_px", 0),
-            rospy.get_param("~screen/window_pos_x_px", 1920),
-            rospy.get_param("~screen/window_pos_y_px", 0),
-            rospy.get_param("~screen/monitor_resolution_x_px", 1920),
-            rospy.get_param("~screen/monitor_resolution_y_px", 1080),
-            rospy.get_param("~screen/camera_resolution_x_px", 640),
-            rospy.get_param("~screen/camera_resolution_y_px", 480),
+            rospy.get_param("~screen/padding/top_px", 0),
+            rospy.get_param("~screen/padding/left_px", 0),
+            rospy.get_param("~screen/padding/right_px", 0),
+            rospy.get_param("~screen/padding/bottom_px", 0),
+            rospy.get_param("~screen/window_pos/x_px", 1920),
+            rospy.get_param("~screen/window_pos/y_px", 0),
+            rospy.get_param("~screen/monitor_resolution/x_px", 1920),
+            rospy.get_param("~screen/monitor_resolution/y_px", 1080),
+            rospy.get_param("~screen/camera_resolution/x_px", 640),
+            rospy.get_param("~screen/camera_resolution/y_px", 480),
         )
         time_last_looked_detected_s = rospy.get_param(
             "~awareness_detection/time_last_looked_detected_s", 5
@@ -89,7 +93,9 @@ class AwarenessModel:
             )
             rospy.loginfo("Visualization enabled.")
             self.__image_pub = rospy.Publisher("~image", Image, queue_size=10)
-            topic = f"/carla/{ego_vehicle_name}/camera/rgb/front/image_color/compressed"
+            topic = rospy.get_param(
+                "~image_topic", "/carla/ego_vehicle/camera/rgb/front/image_color"
+            )
             msg_type = CompressedImage if compress else Image
             if compress:
                 topic += "/compressed"
@@ -115,9 +121,9 @@ class AwarenessModel:
         self.__pub_sa.publish(self.__situation_awareness.sa_msg)
 
     def image_callback(self, image):
-        """ Callback for camera image from carla, objects and their recognition is visualized here """
+        """Callback for camera image from carla, objects and their recognition is visualized here"""
         try:
-            img = self.__image_visualization.get_img_from_msg(image)
+            img = self.__image_visualization.get_image_from_msg(image)
         except CvBridgeError as error:
             rospy.logerr(error)
             return
