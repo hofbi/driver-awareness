@@ -77,6 +77,8 @@ pip3 install -r "$WS_SRC"/pupil/requirements.txt
 
 # Our requirements
 sudo apt install -y libsdl2-dev ros-noetic-opencv-apps ros-noetic-derived-object-msgs
+pip3 install -r "$SCRIPT_DIR"/requirements.txt
+pip3 install -r "$SCRIPT_DIR"/requirements-dev.txt
 
 git clone https://github.com/hofbi/telecarla.git "$WS_SRC"/telecarla && mv "$WS_SRC"/telecarla/telecarla_manual_control . && rm -rf "$WS_SRC"/telecarla/
 
