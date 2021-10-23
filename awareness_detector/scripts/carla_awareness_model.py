@@ -18,22 +18,40 @@ from awareness_detector.sa import (
     SituationAwarenessParameter,
     IdTrackingStrategy,
 )
-from awareness_detector.view import ImageVisualization
+from awareness_detector.view import (
+    ImageVisualization,
+    CameraAdjustment,
+    ScreenParameter,
+)
 
 
 class ObjectAwarenessModel:
-    """ Detects which objects were recognized by the operator """
+    """Detects which objects were recognized by the operator"""
 
     def __init__(self):
         rospy.loginfo("Starting CARLA Awareness Model...")
 
         gaze_topic = rospy.get_param("~gaze_topic", "/gaze_publisher/gaze")
-        ego_vehicle_name = rospy.get_param("~ego_vehicle_name", "ego_vehicle")
         max_object_distance = rospy.get_param("~objects/max_distance_m", 100)
         roi_required_object_distance = rospy.get_param(
             "~objects/roi_required_distance_m", 30
         )
+
+        self.__screen_parameter = ScreenParameter(
+            rospy.get_param("~screen/padding/top_px", 0),
+            rospy.get_param("~screen/padding/left_px", 0),
+            rospy.get_param("~screen/padding/right_px", 0),
+            rospy.get_param("~screen/padding/bottom_px", 0),
+            rospy.get_param("~screen/window_pos/x_px", 1920),
+            rospy.get_param("~screen/window_pos/y_px", 0),
+            rospy.get_param("~screen/monitor_resolution/x_px", 1920),
+            rospy.get_param("~screen/monitor_resolution/y_px", 1080),
+            rospy.get_param("~screen/camera_resolution/x_px", 640),
+            rospy.get_param("~screen/camera_resolution/y_px", 480),
+        )
+
         self.__offset_topbar_px = rospy.get_param("~offset_topbar_px", 30)
+
         camera_fov_deg = rospy.get_param("~camera_fov_deg", 90)
         min_2d_boundingbox_x = rospy.get_param("~min_2d_boundingbox/x_px", 90)
         min_2d_boundingbox_y = rospy.get_param("~min_2d_boundingbox/y_px", 90)
@@ -56,13 +74,17 @@ class ObjectAwarenessModel:
         rospy.loginfo(
             "Waiting for vehicle_info and camera_info topics from carla ros bridge"
         )
+        self.__camera_tf_name = (
+            rospy.get_param("~camera_tf_name", "/carla/ego_vehicle/camera/rgb/front"),
+        )
         ego_vehicle_info = rospy.wait_for_message(
-            f"/carla/{ego_vehicle_name}/vehicle_info", CarlaEgoVehicleInfo
+            rospy.get_param("~vehicle_info_topic", "/carla/ego_vehicle/vehicle_info"),
+            CarlaEgoVehicleInfo,
         )
         camera_info = rospy.wait_for_message(
-            f"/carla/{ego_vehicle_name}/camera/rgb/front/camera_info", CameraInfo
+            f"{self.__camera_tf_name}/camera_info",
+            CameraInfo,
         )
-        self.__camera_tf_name = f"/{ego_vehicle_name}/camera/rgb/front"
         rospy.loginfo("Carla ros bridge is online.")
 
         # Subscribers
@@ -86,6 +108,8 @@ class ObjectAwarenessModel:
         )
 
         # Data variables
+        self.__camera_adjustment = CameraAdjustment(self.__screen_parameter)
+
         self.__gaze_buffer = GazeBuffer()
         punishment_model = PunishmentModel(
             dbscan_max_distance_px, dbscan_min_samples, punishment_factor
@@ -124,7 +148,7 @@ class ObjectAwarenessModel:
             rospy.loginfo("Visualization enabled.")
             self.__image_pub = rospy.Publisher("~image", Image, queue_size=10)
             self.__sub_camera = rospy.Subscriber(
-                f"/carla/{ego_vehicle_name}/camera/rgb/front/image_color/compressed",
+                f"{self.__camera_tf_name}/image_color",
                 Image,
                 self.image_callback,
             )
@@ -134,7 +158,7 @@ class ObjectAwarenessModel:
     def gaze_callback(self, gaze_data):
         # Subtract top bar because simulator is not fullscreen
         for gaze in gaze_data.gazes:
-            gaze.gaze_pixel.y -= self.__offset_topbar_px
+            self.__camera_adjustment.adjust_gaze_data_to_camera_resolution(gaze)
         self.__gaze_buffer.push_array(gaze_data.gazes)
 
     def transform_objects(self, object_msgs):
@@ -167,7 +191,7 @@ class ObjectAwarenessModel:
         return transformed_objects
 
     def objects_callback(self, object_array):
-        """ Callback for carla objects, position of objects in image plane is calculated here """
+        """Callback for carla objects, position of objects in image plane is calculated here"""
         filtered_objects = self.__object_filter.type_filter(object_array.objects)
         filtered_objects = self.transform_objects(filtered_objects)
         filtered_objects = self.__object_filter.geometry_filter(filtered_objects)
@@ -192,9 +216,9 @@ class ObjectAwarenessModel:
         self.__roi_pub.publish(roi_array)
 
     def image_callback(self, image):
-        """ Callback for camera image from carla, objects and their recognition is visualized here """
+        """Callback for camera image from carla, objects and their recognition is visualized here"""
         try:
-            img = self.__image_visualization.get_img_from_msg(image)
+            img = self.__image_visualization.get_image_from_msg(image)
         except CvBridgeError as error:
             rospy.logerr(error)
             return

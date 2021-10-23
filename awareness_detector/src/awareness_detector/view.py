@@ -76,7 +76,10 @@ class ScreenParameter:
 
     def __init__(
         self,
-        offset_topbar_px,
+        top_px,
+        left_px,
+        right_px,
+        bottom_px,
         window_pos_x_px,
         window_pos_y_px,
         monitor_resolution_x_px,
@@ -84,7 +87,11 @@ class ScreenParameter:
         camera_resolution_x_px,
         camera_resolution_y_px,
     ):
-        self.__offset_topbar_px = offset_topbar_px
+        self.__top_px = top_px
+        self.__left_px = left_px
+        self.__right_px = right_px
+        self.__bottom_px = bottom_px
+
         self.__window_pos_x_px = window_pos_x_px
         self.__window_pos_y_px = window_pos_y_px
         self.__monitor_resolution_x_px = monitor_resolution_x_px
@@ -93,8 +100,20 @@ class ScreenParameter:
         self.__camera_resolution_y_px = camera_resolution_y_px
 
     @property
-    def offset_topbar_px(self):
-        return self.__offset_topbar_px
+    def top_px(self):
+        return self.__top_px
+
+    @property
+    def left_px(self):
+        return self.__left_px
+
+    @property
+    def right_px(self):
+        return self.__right_px
+
+    @property
+    def bottom_px(self):
+        return self.__bottom_px
 
     @property
     def window_pos_x_px(self):
@@ -126,23 +145,28 @@ class CameraAdjustment:
     compensates for this."""
 
     def __init__(self, screen_parameter):
-        self.__offset_topbar_px = screen_parameter.offset_topbar_px
+        self.__top_px = screen_parameter.top_px
+
         self.__image_scale_factor_y = (
-            screen_parameter.monitor_resolution_y_px - self.__offset_topbar_px
+            screen_parameter.monitor_resolution_y_px
+            - self.__top_px
+            - screen_parameter.bottom_px
         ) / float(screen_parameter.camera_resolution_y_px)
         image_width = (
             screen_parameter.camera_resolution_x_px * self.__image_scale_factor_y
         )
         self.__image_offset = (
-            screen_parameter.monitor_resolution_x_px - image_width
-        ) / 2.0
+            (screen_parameter.monitor_resolution_x_px - image_width) / 2.0
+            if screen_parameter.left_px == 0
+            else screen_parameter.left_px
+        )
 
     def adjust_gaze_data_to_camera_resolution(self, gaze_data):
         gaze_data.gaze_pixel.x = (
             gaze_data.gaze_pixel.x - self.__image_offset
         ) / self.__image_scale_factor_y
         gaze_data.gaze_pixel.y = (
-            gaze_data.gaze_pixel.y - self.__offset_topbar_px
+            gaze_data.gaze_pixel.y - self.__top_px
         ) / self.__image_scale_factor_y
 
 

@@ -20,7 +20,7 @@ from awareness_detector.sa import (
 from driver_awareness_msgs.msg import Gaze, ROI
 from awareness_detector.geometry import Object2D
 from geometry_msgs.msg import Point
-from opencv_apps.msg import Point2D, Rect
+from opencv_apps.msg import Point2D
 
 COMPREHENSION_ALIVE_TIME = 1
 NUM_GAZE_COMPREHENDED = 3

@@ -32,7 +32,8 @@
     </include>
 
     <include file="$(find awareness_detector)/launch/carla_awareness_model.launch">
-        <arg name="ego_vehicle_name" value="$(arg role_name)"/>
+        <arg name="camera_tf_name" default="/carla/$(arg role_name)/camera/rgb/front"/>
+        <arg name="vehicle_info_topic" default="/carla/$(arg role_name)/vehicle_info"/>
         <arg name="visualize" value="$(arg visualize)"/>
     </include>
 

@@ -12,11 +12,12 @@
     <arg name="screen_resolution_y" default="1080"/>
 
     <arg name="role_name" default="ego_vehicle"/>
+    <arg name="image_topic" default="/carla/$(arg role_name)/camera/rgb/front/image_color"/>
     <arg name="visualize" default="True"/>
     <arg name="visualize_debug" default="False"/>
 
     <include file="$(find awareness_detector)/launch/awareness_model.launch">
-        <arg name="ego_vehicle_name" value="$(arg role_name)"/>
+        <arg name="image_topic" value="$(arg image_topic)"/>
         <arg name="visualize" value="$(arg visualize)"/>
         <arg name="visualize_debug" value="$(arg visualize_debug)"/>
     </include>
@@ -29,13 +30,13 @@
     </include>
 
     <group if="$(eval arg('compress'))">
-        <param name="/carla/$(arg role_name)/camera/rgb/front/image_color/compressed/jpeg_quality" value="$(arg img_quality)"/>
-        <node name="image_republisher" pkg="image_transport" type="republish" args="raw in:=/carla/$(arg role_name)/camera/rgb/front/image_color compressed out:=/carla/$(arg role_name)/camera/rgb/front/image_color">
+        <param name="$(arg image_topic)/compressed/jpeg_quality" value="$(arg img_quality)"/>
+        <node name="image_republisher" pkg="image_transport" type="republish" args="raw in:=$(arg image_topic)/compressed out:=$(arg image_topic)">
         </node>
     </group>
     <!-- rosbag -->
     <group if="$(eval arg('record'))">
-        <node pkg="rosbag" type="record" name="rosbag_record" args="-o $(arg bag_dir)/ /carla/objects /tf /awareness_detection/sa /awareness_detection/image /gaze_publisher/gaze /gaze_publisher/fixation carla/$(arg role_name)/camera/rgb/front/camera_info /carla/marker /carla/lanes /carla/$(arg role_name)/lane_invasion /carla/$(arg role_name)/collision /carla/$(arg role_name)/vehicle_status /carla/$(arg role_name)/vehicle_info /carla/$(arg role_name)/camera/rgb/front/image_color /carla/$(arg role_name)/camera/rgb/front/image_color/compressed"/>
+        <node pkg="rosbag" type="record" name="rosbag_record" args="-o $(arg bag_dir)/ /carla/objects /tf /awareness_detection/sa /awareness_detection/image /gaze_publisher/gaze /gaze_publisher/fixation carla/$(arg role_name)/camera/rgb/front/camera_info /carla/marker /carla/lanes /carla/$(arg role_name)/lane_invasion /carla/$(arg role_name)/collision /carla/$(arg role_name)/vehicle_status /carla/$(arg role_name)/vehicle_info $(arg image_topic) $(arg image_topic)/compressed"/>
     </group>
     <node pkg="rosbag" type="play" name="rosbag_play" args="$(arg filename_rosbag)"/>
 </launch>
