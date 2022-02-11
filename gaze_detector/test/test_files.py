@@ -1,7 +1,8 @@
 """Files Tests"""
 
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 from gaze_detector import files
 
 
@@ -25,5 +26,5 @@ class FilesTestSuite(unittest.TestSuite):
     """Files Test Suite"""
 
     def __init__(self):
-        super(FilesTestSuite, self).__init__()
+        super().__init__()
         self.addTest(FilesTest())

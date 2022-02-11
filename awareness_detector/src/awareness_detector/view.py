@@ -1,12 +1,13 @@
 """View model responsible for visualization"""
 
-import cv2
-from cv_bridge import CvBridge
-import numpy as np
 from dataclasses import dataclass
 
-from driver_awareness_msgs.msg import ROI
+import cv2
+import numpy as np
+from cv_bridge import CvBridge
+
 from awareness_detector.sa import SituationElement
+from driver_awareness_msgs.msg import ROI
 
 
 def draw_current_gaze(img, current_gaze):

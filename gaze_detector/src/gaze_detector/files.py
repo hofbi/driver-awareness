@@ -1,7 +1,8 @@
 """Files Operation Module"""
 
-import matplotlib.pyplot as plt
 from pathlib import Path
+
+import matplotlib.pyplot as plt
 
 
 def get_rotating_data_path(data_folder_path):

@@ -1,26 +1,27 @@
 #!/usr/bin/env python
 
 """SA Test"""
+import itertools
 import math
 import time
-import itertools
 import unittest
 from unittest.mock import MagicMock
 
+from geometry_msgs.msg import Point
+from opencv_apps.msg import Point2D
+
+from awareness_detector.geometry import Object2D
 from awareness_detector.sa import (
+    DistanceTrackingStrategy,
     GazeBuffer,
+    IdTrackingStrategy,
+    PunishmentModel,
     SituationAwareness,
     SituationAwarenessParameter,
     SituationElement,
     SituationElementTracker,
-    DistanceTrackingStrategy,
-    IdTrackingStrategy,
-    PunishmentModel,
 )
-from driver_awareness_msgs.msg import Gaze, ROI
-from awareness_detector.geometry import Object2D
-from geometry_msgs.msg import Point
-from opencv_apps.msg import Point2D
+from driver_awareness_msgs.msg import ROI, Gaze
 
 COMPREHENSION_ALIVE_TIME = 1
 NUM_GAZE_COMPREHENDED = 3
@@ -581,7 +582,7 @@ class SATestSuite(unittest.TestSuite):
     """SA Test"""
 
     def __init__(self):
-        super(SATestSuite, self).__init__()
+        super().__init__()
         self.addTest(GazeBufferTest())
         self.addTest(SituationAwarenessTest())
         self.addTest(SituationElementTest())

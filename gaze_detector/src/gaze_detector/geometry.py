@@ -1,8 +1,8 @@
 """Geometry Module"""
 
 import numpy as np
-from scipy import spatial
 from geometry_msgs.msg import Point
+from scipy import spatial
 
 
 def norm_to_pixel(normalized_point, res_x, res_y):
@@ -38,10 +38,10 @@ class PygameColor:
 class Circle:
     """Defines a circle for data accuracy measurement"""
 
-    def __init__(self, x, y, r):
-        self.__circle_x = x
-        self.__circle_y = y
-        self.__circle_r = r
+    def __init__(self, x_pos, y_pos, radius):
+        self.__circle_x = x_pos
+        self.__circle_y = y_pos
+        self.__circle_r = radius
         self.__dist_gaze_inside = []
 
     @staticmethod

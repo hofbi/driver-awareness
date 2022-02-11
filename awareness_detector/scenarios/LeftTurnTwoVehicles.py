@@ -14,21 +14,19 @@ turning left
 # pylint: disable=invalid-name
 # pylint: enable=invalid-name
 
-from six.moves.queue import Queue  # pylint: disable=relative-import
-
-import py_trees
 import carla
+import py_trees
 from agents.navigation.local_planner import RoadOption
-
+from six.moves.queue import Queue  # pylint: disable=relative-import
 from srunner.scenariomanager.carla_data_provider import (
-    CarlaDataProvider,
     CarlaActorPool,
+    CarlaDataProvider,
 )
 from srunner.scenariomanager.scenarioatomics.atomic_behaviors import (
-    ActorTransformSetter,
     ActorDestroy,
-    ActorSource,
     ActorSink,
+    ActorSource,
+    ActorTransformSetter,
     KeepVelocity,
     WaypointFollower,
 )
@@ -81,7 +79,7 @@ class LeftTurnTwoVehicles(BasicScenario):
             self._blackboard_queue_name2, Queue()
         )
         self._initialized = True
-        super(LeftTurnTwoVehicles, self).__init__(
+        super().__init__(
             "LeftTurnTwoVehicles",
             ego_vehicles,
             config,

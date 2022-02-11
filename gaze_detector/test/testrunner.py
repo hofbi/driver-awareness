@@ -2,7 +2,6 @@
 
 import rosunit
 
-
 if __name__ == "__main__":
     rosunit.unitrun(
         "gaze_detector",

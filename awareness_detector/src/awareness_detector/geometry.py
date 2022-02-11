@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 """ Converts 3D bounding boxes from carla objects to 2d bounding boxes in camera frame """
-from __future__ import division
+
 import numpy as np
 import rospy
-from geometry_msgs.msg import PointStamped, Point
-from driver_awareness_msgs.msg import ROI
-from opencv_apps.msg import Rect, Point2D
 from derived_object_msgs.msg import Object
+from geometry_msgs.msg import Point, PointStamped
+from opencv_apps.msg import Point2D, Rect
 from std_msgs.msg import Header
+
+from driver_awareness_msgs.msg import ROI
 
 
 class ObjectFilter:
@@ -109,10 +110,10 @@ class Object2D:
 
     @staticmethod
     def from_2d_point_list(obj_id, point_list, sa_type, min_size):
-        top_left_x = int(min([x[0] for x in point_list]))
-        top_left_y = int(min([x[1] for x in point_list]))
-        low_right_x = int(max([x[0] for x in point_list]))
-        low_right_y = int(max([x[1] for x in point_list]))
+        top_left_x = int(min(x[0] for x in point_list))
+        top_left_y = int(min(x[1] for x in point_list))
+        low_right_x = int(max(x[0] for x in point_list))
+        low_right_y = int(max(x[1] for x in point_list))
 
         width = low_right_x - top_left_x
         height = low_right_y - top_left_y

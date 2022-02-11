@@ -1,11 +1,12 @@
 """Plot SA evaluation"""
 
+import argparse
+import os
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import pandas as pd
-from pathlib import Path
-import os
 import tikzplotlib
-import argparse
 
 
 def plot_data(input_dir, output_dir, main_scenario, show_plot):
@@ -71,7 +72,7 @@ def plot_data(input_dir, output_dir, main_scenario, show_plot):
 
     print(
         "Scenario & \
-        $\overline{SA}_{opt}$ & $\overline{SA}_{act}$ & $\overline{SA}_{ratio}$ ($\pm\sigma$) \\\\ \hline"  # noqa: W605
+        $\\overline{SA}_{opt}$ & $\\overline{SA}_{act}$ & $\\overline{SA}_{ratio}$ ($\\pm\\sigma$) \\\\"
     )
     for file_name in [
         input_dir.joinpath(file_name)
@@ -82,7 +83,7 @@ def plot_data(input_dir, output_dir, main_scenario, show_plot):
         print(
             f"{file_name.stem} & {sa_df['optimal_sa'].mean():.2f} & \
             {sa_df['actual_sa_mean'].mean():.2f} & {sa_df['sa_mean'].mean():.2f} \
-            $\pm$({sa_df['sa_sigma'].mean():.2f}) \\\\"  # noqa: W605
+            $\\pm$({sa_df['sa_sigma'].mean():.2f}) \\\\"  # noqa: W605
         )
 
 

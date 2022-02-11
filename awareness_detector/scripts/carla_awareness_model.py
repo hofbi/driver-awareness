@@ -4,25 +4,26 @@
 import image_geometry
 import rospy
 import tf
-from awareness_detector.geometry import ObjectFilter, BoundingBoxConverter, FieldOfView
 from carla_msgs.msg import CarlaEgoVehicleInfo
 from cv_bridge import CvBridgeError
-from derived_object_msgs.msg import ObjectArray, Object
+from derived_object_msgs.msg import Object, ObjectArray
 from sensor_msgs.msg import CameraInfo, Image
-from driver_awareness_msgs.msg import ROIArray, SA, GazeArray
+
+from awareness_detector.geometry import BoundingBoxConverter, FieldOfView, ObjectFilter
 from awareness_detector.sa import (
-    SituationAwareness,
     GazeBuffer,
-    PunishmentModel,
-    SituationElementTracker,
-    SituationAwarenessParameter,
     IdTrackingStrategy,
+    PunishmentModel,
+    SituationAwareness,
+    SituationAwarenessParameter,
+    SituationElementTracker,
 )
 from awareness_detector.view import (
-    ImageVisualization,
     CameraAdjustment,
+    ImageVisualization,
     ScreenParameter,
 )
+from driver_awareness_msgs.msg import SA, GazeArray, ROIArray
 
 
 class ObjectAwarenessModel:

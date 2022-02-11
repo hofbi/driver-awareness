@@ -28,5 +28,5 @@ class PupilTestSuite(unittest.TestSuite):
     """Pupil Test Suite"""
 
     def __init__(self):
-        super(PupilTestSuite, self).__init__()
+        super().__init__()
         self.addTest(PupilTest())

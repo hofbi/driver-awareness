@@ -3,10 +3,11 @@
 import unittest
 
 import pandas as pd
+from geometry_msgs.msg import Point
+
+from driver_awareness_msgs.msg import Gaze
 from gaze_detector import geometry
 from gaze_detector.geometry import Circle, GazeData
-from geometry_msgs.msg import Point
-from driver_awareness_msgs.msg import Gaze
 
 
 class GeometryTest(unittest.TestCase):
@@ -119,7 +120,7 @@ class GeometryTestSuite(unittest.TestSuite):
     """Geometry Test Suite"""
 
     def __init__(self):
-        super(GeometryTestSuite, self).__init__()
+        super().__init__()
         self.addTest(GeometryTest())
         self.addTest(CircleTest())
         self.addTest(GazeDataTest())

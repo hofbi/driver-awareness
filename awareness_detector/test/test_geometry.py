@@ -5,16 +5,17 @@
 import unittest
 from unittest.mock import MagicMock
 
-from awareness_detector.geometry import (
-    ObjectFilter,
-    FieldOfView,
-    Object2D,
-    BoundingBoxConverter,
-)
-from driver_awareness_msgs.msg import ROI
 from derived_object_msgs.msg import Object
 from geometry_msgs.msg import Point
-from opencv_apps.msg import Rect, Point2D
+from opencv_apps.msg import Point2D, Rect
+
+from awareness_detector.geometry import (
+    BoundingBoxConverter,
+    FieldOfView,
+    Object2D,
+    ObjectFilter,
+)
+from driver_awareness_msgs.msg import ROI
 
 
 def create_object(
@@ -49,12 +50,12 @@ class FieldOfViewTest(unittest.TestCase):
     def test_constructor__angle_zero__zero(self):
         unit = FieldOfView(0, self.__cam_model)
 
-        self.assertEquals(0, unit.horizontal)
-        self.assertEquals(0, unit.vertical)
+        self.assertEqual(0, unit.horizontal)
+        self.assertEqual(0, unit.vertical)
 
     def test_constructor__angle_90__correct(self):
-        self.assertEquals(90, self.__unit.horizontal)
-        self.assertEquals(73, self.__unit.vertical)
+        self.assertEqual(90, self.__unit.horizontal)
+        self.assertEqual(73, self.__unit.vertical)
 
     def test_is_point_in_fov__negative_z__false(self):
         self.assertFalse(self.__unit.is_point_in_fov(-1, 0, 90))
@@ -95,14 +96,14 @@ class ObjectFilterTest(unittest.TestCase):
 
         result = self.__filter.get_topic_for_object(object_msg)
 
-        self.assertEquals("/vehicle/0", result)
+        self.assertEqual("/vehicle/0", result)
 
     def test_get_topic_for_object__pedestrian__walker(self):
         object_msg = create_object(classification=Object.CLASSIFICATION_PEDESTRIAN)
 
         result = self.__filter.get_topic_for_object(object_msg)
 
-        self.assertEquals("/walker/0", result)
+        self.assertEqual("/walker/0", result)
 
     def test_get_topic_for_object__unknown__key_error(self):
         with self.assertRaises(KeyError):
@@ -121,7 +122,7 @@ class ObjectFilterTest(unittest.TestCase):
 
         result = self.__filter.type_filter(object_list)
 
-        self.assertEquals(result, object_list)
+        self.assertEqual(result, object_list)
 
     def test_type_filter__ego_vehicle_and_pedestrian__pedestrian_left(self):
         pedestrian = create_object(3, Object.CLASSIFICATION_PEDESTRIAN)
@@ -129,8 +130,8 @@ class ObjectFilterTest(unittest.TestCase):
 
         result = self.__filter.type_filter(object_list)
 
-        self.assertEquals(1, len(result))
-        self.assertEquals(pedestrian, result[0])
+        self.assertEqual(1, len(result))
+        self.assertEqual(pedestrian, result[0])
 
     def test_type_filter__vehicle_and_unknown__vehicle_left(self):
         vehicle = create_object(2, Object.CLASSIFICATION_CAR)
@@ -138,8 +139,8 @@ class ObjectFilterTest(unittest.TestCase):
 
         result = self.__filter.type_filter(object_list)
 
-        self.assertEquals(1, len(result))
-        self.assertEquals(vehicle, result[0])
+        self.assertEqual(1, len(result))
+        self.assertEqual(vehicle, result[0])
 
     def test_geometry_filter__empty_list__result_empty(self):
         result = self.__filter.geometry_filter([])
@@ -154,7 +155,7 @@ class ObjectFilterTest(unittest.TestCase):
 
         result = self.__filter.geometry_filter(object_list)
 
-        self.assertEquals(result, object_list)
+        self.assertEqual(result, object_list)
 
     def test_type_filter__one_in_and_one_out_of_range__one_left(self):
         in_range = create_object(x_pos=2)
@@ -165,8 +166,8 @@ class ObjectFilterTest(unittest.TestCase):
 
         result = self.__filter.geometry_filter(object_list)
 
-        self.assertEquals(1, len(result))
-        self.assertEquals(in_range, result[0])
+        self.assertEqual(1, len(result))
+        self.assertEqual(in_range, result[0])
 
     def test_type_filter__not_in_fov__empty(self):
         self.__fov_mock.is_point_inside.return_value = False
@@ -185,11 +186,11 @@ class Object2DTest(unittest.TestCase):
 
         result = unit.to_roi_msg()
 
-        self.assertEquals(1, result.id)
-        self.assertEquals(ROI.DESIRED, result.type)
-        self.assertEquals(0.5, result.roi.radius)
-        self.assertEquals(rect.x, result.roi.center.x)
-        self.assertEquals(rect.y, result.roi.center.y)
+        self.assertEqual(1, result.id)
+        self.assertEqual(ROI.DESIRED, result.type)
+        self.assertEqual(0.5, result.roi.radius)
+        self.assertEqual(rect.x, result.roi.center.x)
+        self.assertEqual(rect.y, result.roi.center.y)
 
     def test_to_roi_msg__rectangle__correct_conversion(self):
         rect = Rect(2, 3, 2, 4)
@@ -197,11 +198,11 @@ class Object2DTest(unittest.TestCase):
 
         result = unit.to_roi_msg()
 
-        self.assertEquals(10, result.id)
-        self.assertEquals(ROI.REQUIRED, result.type)
-        self.assertEquals(2, result.roi.radius)
-        self.assertEquals(rect.x, result.roi.center.x)
-        self.assertEquals(rect.y, result.roi.center.y)
+        self.assertEqual(10, result.id)
+        self.assertEqual(ROI.REQUIRED, result.type)
+        self.assertEqual(2, result.roi.radius)
+        self.assertEqual(rect.x, result.roi.center.x)
+        self.assertEqual(rect.y, result.roi.center.y)
 
     def test_from_2d_point_list__larger_than_min(self):
         object_2d = Object2D.from_2d_point_list(
@@ -209,12 +210,12 @@ class Object2DTest(unittest.TestCase):
         )
 
         result = object_2d.to_roi_msg()
-        self.assertEquals(1, result.id)
-        self.assertEquals(ROI.REQUIRED, result.type)
-        self.assertEquals(5, result.roi.radius)
-        self.assertEquals(5, result.roi.center.x)
-        self.assertEquals(4, result.roi.center.y)
-        self.assertEquals(Rect(5, 4, 10, 8), object_2d.bb_2d)
+        self.assertEqual(1, result.id)
+        self.assertEqual(ROI.REQUIRED, result.type)
+        self.assertEqual(5, result.roi.radius)
+        self.assertEqual(5, result.roi.center.x)
+        self.assertEqual(4, result.roi.center.y)
+        self.assertEqual(Rect(5, 4, 10, 8), object_2d.bb_2d)
 
     def test_from_2d_point_list__smaller_than_min(self):
         object_2d = Object2D.from_2d_point_list(
@@ -222,12 +223,12 @@ class Object2DTest(unittest.TestCase):
         )
 
         result = object_2d.to_roi_msg()
-        self.assertEquals(1, result.id)
-        self.assertEquals(ROI.REQUIRED, result.type)
-        self.assertEquals(6, result.roi.radius)
-        self.assertEquals(5, result.roi.center.x)
-        self.assertEquals(4, result.roi.center.y)
-        self.assertEquals(Rect(5, 4, 12, 12), object_2d.bb_2d)
+        self.assertEqual(1, result.id)
+        self.assertEqual(ROI.REQUIRED, result.type)
+        self.assertEqual(6, result.roi.radius)
+        self.assertEqual(5, result.roi.center.x)
+        self.assertEqual(4, result.roi.center.y)
+        self.assertEqual(Rect(5, 4, 12, 12), object_2d.bb_2d)
 
 
 class BoundingBoxConverterTest(unittest.TestCase):
@@ -247,18 +248,18 @@ class BoundingBoxConverterTest(unittest.TestCase):
 
         result = self.__unit.convert(object_msg, "")
 
-        self.assertEquals(result.id, object_msg.id)
-        self.assertEquals(result.to_roi_msg().type, ROI.REQUIRED)
-        self.assertEquals(result.to_roi_msg().roi, create_roi(20, 40, 1.5).roi)
+        self.assertEqual(result.id, object_msg.id)
+        self.assertEqual(result.to_roi_msg().type, ROI.REQUIRED)
+        self.assertEqual(result.to_roi_msg().roi, create_roi(20, 40, 1.5).roi)
 
     def test_convert__all_points_in_fov_and_far(self):
         object_msg = create_object(1, z_pos=40)
 
         result = self.__unit.convert(object_msg, "")
 
-        self.assertEquals(result.id, object_msg.id)
-        self.assertEquals(result.to_roi_msg().type, ROI.DESIRED)
-        self.assertEquals(result.to_roi_msg().roi, create_roi(20, 40, 1.5).roi)
+        self.assertEqual(result.id, object_msg.id)
+        self.assertEqual(result.to_roi_msg().type, ROI.DESIRED)
+        self.assertEqual(result.to_roi_msg().roi, create_roi(20, 40, 1.5).roi)
 
     def test_get_3d_corners_from_shape_dimensions__vehicle(self):
         dimensions = [2, 2, 2]
@@ -267,9 +268,9 @@ class BoundingBoxConverterTest(unittest.TestCase):
             dimensions, Object.CLASSIFICATION_CAR
         )
 
-        self.assertEquals(8, len(result))
-        self.assertEquals(Point(1.0, 1.0, 2.0), result[0])
-        self.assertEquals(Point(-1.0, -1.0, 0.0), result[-1])
+        self.assertEqual(8, len(result))
+        self.assertEqual(Point(1.0, 1.0, 2.0), result[0])
+        self.assertEqual(Point(-1.0, -1.0, 0.0), result[-1])
 
     def test_get_3d_corners_from_shape_dimensions__pedestrian(self):
         dimensions = [2, 2, 2]
@@ -278,9 +279,9 @@ class BoundingBoxConverterTest(unittest.TestCase):
             dimensions, Object.CLASSIFICATION_PEDESTRIAN
         )
 
-        self.assertEquals(8, len(result))
-        self.assertEquals(Point(1.0, 1.0, 1.0), result[0])
-        self.assertEquals(Point(-1.0, -1.0, -1.0), result[-1])
+        self.assertEqual(8, len(result))
+        self.assertEqual(Point(1.0, 1.0, 1.0), result[0])
+        self.assertEqual(Point(-1.0, -1.0, -1.0), result[-1])
 
     def test_project_point_on_fov__multiple_cases(self):
         self.assertAlmostEqual(0, self.__unit.project_point_on_fov(0, 90))
@@ -293,7 +294,7 @@ class GeometryTestSuite(unittest.TestSuite):
     """Geometry Test"""
 
     def __init__(self):
-        super(GeometryTestSuite, self).__init__()
+        super().__init__()
         self.addTest(FieldOfViewTest())
         self.addTest(ObjectFilterTest())
         self.addTest(Object2DTest())

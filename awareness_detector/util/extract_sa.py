@@ -4,10 +4,10 @@ Helper tool to run the situational awareness detection pipeline on a folder of b
 extract sa messages only & create a csv file with the sa data
 """
 
-import time
 import argparse
 import os
 import subprocess
+import time
 
 DEFAULT_OUTPUT_DIR = os.getcwd()
 

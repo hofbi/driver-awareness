@@ -3,13 +3,15 @@
 This module is used to perform remote calibration of the Pupil Core by connecting to the pupil capture
 software and displaying calibration markers on the screen using pygame
 """
-import rospy
-import pygame
-from gaze_detector import pupil
-from gaze_detector.pupil import PupilRemoteCommands
-from gaze_detector.geometry import PygameColor
-import msgpack
 import time
+
+import msgpack
+import pygame
+import rospy
+
+from gaze_detector import pupil
+from gaze_detector.geometry import PygameColor
+from gaze_detector.pupil import PupilRemoteCommands
 
 
 class RemoteCalibration:

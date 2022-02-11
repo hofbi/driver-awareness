@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Helper tool to start carla scenarios one after another using the carla scenario runner"""
 
-import time
 import argparse
 import os
 import subprocess
-
+import time
 from datetime import datetime
 
 DEFAULT_OUTPUT_DIR = os.path.abspath(

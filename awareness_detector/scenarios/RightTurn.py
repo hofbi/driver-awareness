@@ -14,26 +14,23 @@ after turning right.
 # pylint: disable=invalid-name
 # pylint: enable=invalid-name
 
-from __future__ import print_function
 
 import sys
 
-import py_trees
-
 import carla
+import py_trees
 from agents.navigation.local_planner import RoadOption
-
 from srunner.scenariomanager.carla_data_provider import (
-    CarlaDataProvider,
     CarlaActorPool,
+    CarlaDataProvider,
 )
 from srunner.scenariomanager.scenarioatomics.atomic_behaviors import (
-    ActorTransformSetter,
     ActorDestroy,
+    ActorTransformSetter,
+    KeepVelocity,
     StopVehicle,
     SyncArrival,
     WaypointFollower,
-    KeepVelocity,
 )
 from srunner.scenariomanager.scenarioatomics.atomic_criteria import CollisionTest
 from srunner.scenariomanager.scenarioatomics.atomic_trigger_conditions import (
@@ -42,9 +39,9 @@ from srunner.scenariomanager.scenarioatomics.atomic_trigger_conditions import (
 )
 from srunner.scenarios.basic_scenario import BasicScenario
 from srunner.tools.scenario_helper import (
-    get_geometric_linear_intersection,
-    get_crossing_point,
     generate_target_waypoint,
+    get_crossing_point,
+    get_geometric_linear_intersection,
 )
 
 
@@ -79,7 +76,7 @@ class RightTurn(BasicScenario):
         self._pedestrian_transform = None
         # Timeout of scenario in seconds
         self.timeout = timeout
-        super(RightTurn, self).__init__(
+        super().__init__(
             "RightTurn",
             ego_vehicles,
             config,

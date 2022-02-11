@@ -1,12 +1,13 @@
 """Situation Awareness Module"""
 
+import enum
 import operator
 import time
 
-import enum
 import numpy as np
 from sklearn.cluster import DBSCAN
-from driver_awareness_msgs.msg import SA, ROI
+
+from driver_awareness_msgs.msg import ROI, SA
 
 
 class SituationAwareness:

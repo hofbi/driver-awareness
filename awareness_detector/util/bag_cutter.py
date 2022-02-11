@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Helper tool to remove waiting time at beggining of bag if car did not drive yet"""
 
-import rosbag
-import time
 import argparse
 import os
+import time
+
+import rosbag
 import rospkg
 
 DEFAULT_OUTPUT_DIR = os.path.join(

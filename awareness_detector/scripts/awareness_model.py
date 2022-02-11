@@ -1,23 +1,24 @@
 #!/usr/bin/env python
 """ Detects which objects were recognized by the operator based on a free awareness model"""
+import cv2
 import rospy
 from cv_bridge import CvBridgeError
 from sensor_msgs.msg import CompressedImage, Image
-from driver_awareness_msgs.msg import ROIArray, SA, GazeArray
+
 from awareness_detector.sa import (
+    DistanceTrackingStrategy,
     GazeBuffer,
+    PunishmentModel,
     SituationAwareness,
     SituationAwarenessParameter,
     SituationElementTracker,
-    DistanceTrackingStrategy,
-    PunishmentModel,
 )
 from awareness_detector.view import (
-    ScreenParameter,
     CameraAdjustment,
     ImageVisualization,
+    ScreenParameter,
 )
-import cv2
+from driver_awareness_msgs.msg import SA, GazeArray, ROIArray
 
 
 class AwarenessModel:

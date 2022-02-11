@@ -14,23 +14,22 @@ vehicle traveling in the opposite direction. Additionally there is a pedestrian.
 # pylint: disable=invalid-name
 # pylint: enable=invalid-name
 
-from six.moves.queue import Queue  # pylint: disable=relative-import
-
 import math
-import py_trees
-import carla
 
+import carla
+import py_trees
+from six.moves.queue import Queue  # pylint: disable=relative-import
 from srunner.scenariomanager.carla_data_provider import (
-    CarlaDataProvider,
     CarlaActorPool,
+    CarlaDataProvider,
 )
 from srunner.scenariomanager.scenarioatomics.atomic_behaviors import (
-    ActorTransformSetter,
     ActorDestroy,
-    ActorSource,
     ActorSink,
-    WaypointFollower,
+    ActorSource,
+    ActorTransformSetter,
     KeepVelocity,
+    WaypointFollower,
 )
 from srunner.scenariomanager.scenarioatomics.atomic_criteria import CollisionTest
 from srunner.scenariomanager.scenarioatomics.atomic_trigger_conditions import (
@@ -88,7 +87,7 @@ class ManeuverOppositeDirectionPedestrian(BasicScenario):
         # Timeout of scenario in seconds
         self.timeout = timeout
 
-        super(ManeuverOppositeDirectionPedestrian, self).__init__(
+        super().__init__(
             "ManeuverOppositeDirectionPedestrian",
             ego_vehicles,
             config,

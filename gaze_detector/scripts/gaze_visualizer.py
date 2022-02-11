@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 """Visualizes gaze data and performs a accuracy test"""
+import os
+import time
 from pathlib import Path
-import rospkg
+
 import matplotlib.pyplot as plt
 import numpy as np
-import rospy
 import pandas as pd
-from driver_awareness_msgs.msg import GazeArray
-from gaze_detector.geometry import PygameColor, GazeData, Circle
-from gaze_detector import files, geometry
 import pygame
-import time
-import os
+import rospkg
+import rospy
+
+from driver_awareness_msgs.msg import GazeArray
+from gaze_detector import files, geometry
+from gaze_detector.geometry import Circle, GazeData, PygameColor
 
 
 class GazeVisualizer:

@@ -2,8 +2,9 @@
 """Receives gaze data from the eye tracking device and publishes it to ros"""
 
 import rospy
-from gaze_detector.pupil import PupilInterface
+
 from driver_awareness_msgs.msg import GazeArray
+from gaze_detector.pupil import PupilInterface
 
 
 class GazePublisher:

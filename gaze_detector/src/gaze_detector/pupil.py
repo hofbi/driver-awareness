@@ -3,8 +3,9 @@
 import msgpack
 import rospy
 import zmq
-from driver_awareness_msgs.msg import Gaze, GazeArray
 from geometry_msgs.msg import Point
+
+from driver_awareness_msgs.msg import Gaze, GazeArray
 from gaze_detector import geometry
 
 

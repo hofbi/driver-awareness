@@ -2,11 +2,12 @@
 
 import unittest
 
-from driver_awareness_msgs.msg import Gaze, ROI
-from awareness_detector.sa import SituationElement
-from awareness_detector.view import CameraAdjustment, ScreenParameter, Color
-from awareness_detector import view
 from geometry_msgs.msg import Point
+
+from awareness_detector import view
+from awareness_detector.sa import SituationElement
+from awareness_detector.view import CameraAdjustment, Color, ScreenParameter
+from driver_awareness_msgs.msg import ROI, Gaze
 
 
 def create_gaze(x_pos, y_pos):
@@ -109,6 +110,6 @@ class ViewTestSuite(unittest.TestSuite):
     """View Test"""
 
     def __init__(self):
-        super(ViewTestSuite, self).__init__()
+        super().__init__()
         self.addTest(ViewTest())
         self.addTest(CameraAdjustmentTest())
